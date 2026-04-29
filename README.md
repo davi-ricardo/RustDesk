@@ -36,7 +36,61 @@ Para garantir que tudo está rodando corretamente:
 ```bash
 docker-compose ps
 ```
+## 🚀 Como Instalar e Configurar na sua VPS
 
+### 1. Pré-requisitos
+Certifique-se de que seu servidor (VPS) possua instalados:
+- **Git**
+- **Docker**
+- **Docker Compose**
+
+### 2. Preparação do Servidor
+Após acessar sua VPS via terminal (ou através do terminal de sua preferência):
+
+```bash
+ssh root@ip_da_vps
+```
+
+Execute os passos abaixo para preparar o ambiente e subir os serviços:
+
+```bash
+# 1. Criar o diretório do projeto
+mkdir -p /opt/rustdesk
+cd /opt/rustdesk
+
+# 2. Clonar o repositório (substitua pela URL do seu repositório público/privado)
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git .
+
+# 3. Iniciar os containers em segundo plano
+docker-compose up -d
+```
+
+Neste momento, o Docker irá baixar as imagens do RustDesk Server e iniciar os serviços. O diretório `data/` será criado automaticamente e as chaves de criptografia serão geradas.
+
+### 3. Obtendo sua Chave de Segurança (Key)
+Para que os seus dispositivos se conectem com segurança ao seu servidor, você precisará da Public Key gerada automaticamente pelo container. 
+
+Execute o comando abaixo para visualizar a chave:
+
+```bash
+cat /opt/rustdesk/data/id_ed25519.pub
+```
+
+> **Nota:** Copie o código alfanumérico que aparecerá no terminal. Você o usará no próximo passo.
+
+### 4. Configuração do Cliente (Desktop/Mobile)
+Com o servidor rodando, siga estes passos no aplicativo RustDesk do seu computador ou celular para se conectar à sua rede privada:
+
+1. Abra o RustDesk e clique no **ícone de menu (três pontos)** ao lado do seu ID.
+2. Vá em **Configurações** > **Rede**.
+3. Clique em **Desbloquear configurações de rede** (se necessário).
+4. Preencha os campos conforme abaixo:
+   - **Servidor de ID:** `O_IP_DA_SUA_VPS` (ou seu domínio/subdomínio, ex: `rustdesk.seudominio.com`)
+   - **Servidor de Relay:** `O_IP_DA_SUA_VPS` (ou o mesmo domínio acima)
+   - **Key:** Cole a chave que você obteve no passo anterior.
+5. Clique em **OK** (ou Aplicar).
+
+> ✅ **Sucesso:** Se a bolinha no rodapé do aplicativo ficar verde e exibir a mensagem "Pronto", sua infraestrutura privada está operacional.
 ---
 
 ## 🔑 Configuração do Cliente RustDesk
